@@ -1,17 +1,25 @@
 import { FaUserAlt, FaPhoneAlt } from "react-icons/fa";
 import s from "./Contact.module.css";
+import { useDispatch } from "react-redux";
+import { deleteContact } from "../../redux/contactSlice";
 
-export default function Contact({ data, onDelete }) {
+export default function Contact({ contact }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteContact(contact.id));
+  };
+
   return (
     <div className={s.listItem}>
       <div className={s.contactInfo}>
         <p className={s.contactName}>
           <FaUserAlt size={18} style={{ marginRight: 10 }} />
-          {data.name}
+          {contact.name}
         </p>
         <a
           className={s.contactNum}
-          href={`tel:${data.number
+          href={`tel:${contact.number
             .trim()
             .replace(/\s+/g, "")
             .replace(/-/g, "")}`}
@@ -21,10 +29,10 @@ export default function Contact({ data, onDelete }) {
             size={18}
             style={{ marginRight: 10 }}
           />
-          {data.number}
+          {contact.number}
         </a>
       </div>
-      <button onClick={() => onDelete(data.id)} className={s.btnDelete}>
+      <button onClick={handleDelete} className={s.btnDelete}>
         Delete
       </button>
     </div>
